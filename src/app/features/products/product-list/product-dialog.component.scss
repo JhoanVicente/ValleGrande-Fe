@@ -1,0 +1,57 @@
+:host {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-checkbox {
+  display: block;
+  margin: 1rem 0;
+}
+
+mat-dialog-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.dialog-container {
+  padding: 20px;
+  min-width: 400px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+mat-dialog-content {
+  max-height: 70vh;
+}
+
+mat-dialog-actions {
+  padding: 20px 0;
+  margin-bottom: 0;
+}
+
+.w-100 {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+mat-dialog-content {
+  min-width: 400px;
+}

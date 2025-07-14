@@ -1,0 +1,18 @@
+<h2>Mis Reservaciones</h2>
+<button mat-raised-button color="primary" (click)="openDialog()">Nueva Reservación</button>
+<table mat-table [dataSource]="reservations" class="mat-elevation-z8">
+  <ng-container matColumnDef="reservationName">
+    <th mat-header-cell *matHeaderCellDef>Nombre</th>
+    <td mat-cell *matCellDef="let r">{{ r.reservationName }}</td>
+  </ng-container>
+  <ng-container matColumnDef="reservationDate">
+    <th mat-header-cell *matHeaderCellDef>Fecha</th>
+    <td mat-cell *matCellDef="let r">{{ r.reservationDate | date:'short' }}</td>
+  </ng-container>
+  <ng-container matColumnDef="orderStatusType">
+    <th mat-header-cell *matHeaderCellDef>Estado</th>
+    <td mat-cell *matCellDef="let r">{{ r.orderStatusType?.name }}</td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="['reservationName', 'reservationDate', 'orderStatusType']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['reservationName', 'reservationDate', 'orderStatusType'];"></tr>
+</table> 

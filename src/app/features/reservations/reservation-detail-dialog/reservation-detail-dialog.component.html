@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>{{ data?.detail ? 'Editar' : 'Agregar' }} Detalle de Reservación</h2>
+<form [formGroup]="form" (ngSubmit)="save()" style="padding: 1rem;">
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Número de personas</mat-label>
+    <input matInput type="number" formControlName="numberPeople" min="1" max="8" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Método de reservación</mat-label>
+    <input matInput formControlName="reservationMethod" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Petición especial</mat-label>
+    <input matInput formControlName="request">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Mesa</mat-label>
+    <mat-select formControlName="table" required>
+      <mat-option *ngFor="let t of (tables$ | async)" [value]="t" [disabled]="t.state !== 'A'">
+        Mesa {{ t.tableNumber }} ({{ t.ability }} personas) <span *ngIf="t.state !== 'A'">(Inactiva)</span>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem;">
+    <button mat-button type="button" (click)="close()">Cancelar</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Guardar</button>
+  </div>
+</form> 

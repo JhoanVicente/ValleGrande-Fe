@@ -1,0 +1,77 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2>Categorías</h2>
+  <button *ngIf="userRole === 'Administrador'" mat-raised-button color="primary" (click)="openAddDialog()" [disabled]="loading">
+    <mat-icon>add</mat-icon> Nueva Categoría
+  </button>
+</div>
+
+<div class="mb-3" *ngIf="userRole === 'Administrador'">
+  <div class="btn-group" role="group">
+    <button 
+      mat-button 
+      color="primary" 
+      (click)="filterCategories('all')"
+    >
+      Todos
+    </button>
+    <button 
+      mat-button 
+      color="primary" 
+      (click)="filterCategories('active')"
+    >
+      Activos
+    </button>
+    <button 
+      mat-button 
+      color="primary" 
+      (click)="filterCategories('inactive')"
+    >
+      Inactivos
+    </button>
+  </div>
+  
+  <mat-form-field appearance="outline" class="w-100 mt-3">
+    <input 
+      matInput 
+      placeholder="Buscar categoría"
+      [(ngModel)]="searchTerm"
+    >
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+</div>
+
+<div *ngIf="loading" class="text-center my-3">
+  <mat-spinner></mat-spinner>
+</div>
+
+<table *ngIf="!loading" class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th class="col-description">Descripción</th>
+      <th>Estado</th>
+      <th *ngIf="userRole === 'Administrador'">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let category of filteredCategories">
+      <td>{{ category.id }}</td>
+      <td>{{ category.name }}</td>
+      <td>{{ category.description }}</td>
+      <td>{{ category.status }}</td>
+      <td *ngIf="userRole === 'Administrador'">
+        <button 
+          mat-icon-button 
+          color="primary" 
+          (click)="restoreCategory(category)"
+        >
+          <mat-icon>restore</mat-icon>
+        </button>
+      </td>
+    </tr>
+    <tr *ngIf="filteredCategories.length === 0 && !loading">
+      <td colspan="5">No se encontraron categorías.</td>
+    </tr>
+  </tbody>
+</table> 

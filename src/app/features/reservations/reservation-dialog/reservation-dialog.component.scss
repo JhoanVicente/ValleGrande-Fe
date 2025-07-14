@@ -1,0 +1,9 @@
+/* Estilos para reservation-dialog.component */ 
+.date-time-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.date-time-container > mat-form-field {
+  flex: 1;
+} 

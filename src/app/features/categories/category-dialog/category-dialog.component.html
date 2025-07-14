@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+
+<form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content>
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="name" placeholder="Nombre de la categoría" />
+      <mat-error *ngIf="name?.hasError('required')">El nombre es obligatorio.</mat-error>
+      <mat-error *ngIf="name?.hasError('maxLength')">Máximo 100 caracteres.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="description" placeholder="Descripción"></textarea>
+      <mat-error *ngIf="categoryForm.get('description')?.hasError('maxLength')">Máximo 255 caracteres.</mat-error>
+    </mat-form-field>
+
+    <mat-checkbox formControlName="status">Activo</mat-checkbox>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="onCancel()">Cancelar</button>
+    <button mat-flat-button color="primary" type="submit">{{ isEdit ? 'Actualizar' : 'Crear' }}</button>
+  </mat-dialog-actions>
+</form>

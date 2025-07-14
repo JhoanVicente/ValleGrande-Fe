@@ -1,0 +1,66 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+
+<div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</div>
+
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content>
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="name" placeholder="Nombre del producto" />
+      <mat-error *ngIf="name?.hasError('required')">El nombre es obligatorio.</mat-error>
+      <mat-error *ngIf="name?.hasError('maxlength')">Máximo 100 caracteres.</mat-error>
+      <mat-error *ngIf="name?.hasError('pattern')">El nombre solo puede contener letras, espacios, guiones y puntos (no números ni caracteres especiales).</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="description" placeholder="Descripción" rows="3"></textarea>
+      <mat-error *ngIf="description?.hasError('required')">La descripción es obligatoria.</mat-error>
+      <mat-error *ngIf="description?.hasError('minlength')">La descripción debe tener al menos 10 caracteres.</mat-error>
+      <mat-error *ngIf="description?.hasError('maxlength')">Máximo 500 caracteres.</mat-error>
+      <mat-error *ngIf="description?.hasError('pattern')">La descripción solo puede contener letras, números, espacios y los siguientes caracteres: .,!?-</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>Precio (S/)</mat-label>
+      <input type="number" 
+             matInput 
+             formControlName="price" 
+             min="0.01" 
+             step="0.01" 
+             placeholder="0.00" />
+      <mat-error *ngIf="price?.hasError('required')">El precio es obligatorio.</mat-error>
+      <mat-error *ngIf="price?.hasError('min')">El precio debe ser mayor a S/ 0.01.</mat-error>
+      <mat-error *ngIf="price?.hasError('max')">El precio no puede ser mayor a S/ 9999.99.</mat-error>
+      <mat-error *ngIf="price?.hasError('pattern')">El precio debe ser un número entero o tener hasta 2 decimales (ejemplo: 4 o 4.50).</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>Categoría</mat-label>
+      <mat-select formControlName="category" placeholder="Seleccione categoría">
+        <mat-option [value]="null">Seleccione una categoría</mat-option>
+        <mat-option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="category?.hasError('required')">Debe seleccionar una categoría.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>URL de Imagen</mat-label>
+      <input matInput formControlName="imageUrl" placeholder="https://..." />
+      <mat-error *ngIf="imageUrl?.hasError('pattern')">Debe ser una URL válida de imagen (png, jpg, jpeg, gif, svg).</mat-error>
+    </mat-form-field>
+
+    <mat-checkbox formControlName="status">Activo</mat-checkbox>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="onCancel()">Cancelar</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="productForm.invalid">
+      {{ isEdit ? 'Actualizar' : 'Crear' }}
+    </button>
+  </mat-dialog-actions>
+</form>

@@ -1,0 +1,15 @@
+/* Estilos para reservation-list.component */ 
+.header-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
+mat-form-field {
+  width: 50%;
+}
+
+table {
+  width: 100%;
+} 

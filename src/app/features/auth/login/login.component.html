@@ -1,0 +1,35 @@
+<div class="login-background">
+  <div class="login-container">
+    <h2 class="login-title">Iniciar Sesión</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <mat-form-field appearance="outline" class="login-field">
+        <mat-label>Usuario</mat-label>
+        <input matInput formControlName="username" autocomplete="username" />
+        <mat-icon matPrefix>person</mat-icon>
+        <mat-error *ngIf="loginForm.get('username')?.hasError('required') && loginForm.get('username')?.touched">
+          El usuario es obligatorio.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="login-field">
+        <mat-label>Contraseña</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" autocomplete="current-password" />
+        <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
+          La contraseña es obligatoria.
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="login-btn" type="submit" [disabled]="loginForm.invalid || loading">
+        <span *ngIf="!loading">Entrar</span>
+        <mat-progress-spinner *ngIf="loading" diameter="24" mode="indeterminate"></mat-progress-spinner>
+      </button>
+
+      <div *ngIf="errorMessage" class="login-error">
+        {{ errorMessage }}
+      </div>
+    </form>
+  </div>
+</div>

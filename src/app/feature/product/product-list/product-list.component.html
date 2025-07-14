@@ -1,0 +1,17 @@
+<h2>Lista de Productos</h2>
+
+<button (click)="toggleShowInactive()">
+  {{ showInactive ? 'Mostrar Activos' : 'Mostrar Inactivos' }}
+</button>
+
+<ul>
+  <li *ngFor="let product of products">
+    {{ product.name }} - {{ product.price | currency }} - Estado: {{ product.status }}
+
+    <button (click)="editProduct(product)">Editar</button>
+    <button (click)="deleteProduct(product.id)">Eliminar</button>
+    <button *ngIf="showInactive" (click)="restoreProduct(product.id)">Restaurar</button>
+  </li>
+</ul>
+
+<app-product-form *ngIf="editingProduct" [product]="editingProduct" (save)="onSave($event)"></app-product-form>

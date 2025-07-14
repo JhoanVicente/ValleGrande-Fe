@@ -1,0 +1,71 @@
+<h2 mat-dialog-title>{{ data?.reservation ? 'Editar' : 'Nueva' }} Reservación</h2>
+<form [formGroup]="form" (ngSubmit)="save()" style="padding: 1rem;">
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Nombre</mat-label>
+    <input matInput formControlName="reservationName" required maxlength="90">
+  </mat-form-field>
+
+  <div class="date-time-container">
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="reservationDate" [min]="minDate" required>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Hora</mat-label>
+      <input matInput type="time" formControlName="reservationTime" required>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Estado</mat-label>
+    <mat-select formControlName="orderStatusType" [compareWith]="compareStatus" required>
+      <mat-option *ngFor="let status of (statusTypes$ | async)" [value]="status">{{ status.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="isAdmin" appearance="fill" class="w-100">
+    <mat-label>Usuario</mat-label>
+    <mat-select formControlName="restaurantUser" [compareWith]="compareUsers" required>
+      <mat-option *ngFor="let user of (users$ | async)" [value]="user">{{ user.names }} {{ user.surnames }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <hr>
+  <h3>Detalle de la Reserva</h3>
+
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Número de personas</mat-label>
+    <input matInput type="number" formControlName="numberPeople" min="1" max="8" required>
+  </mat-form-field>
+  
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Método</mat-label>
+    <mat-select formControlName="reservationMethod" required>
+      <mat-option value="Online">Online</mat-option>
+      <mat-option value="Llamada">Llamada</mat-option>
+      <mat-option value="En persona">En persona</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Petición especial</mat-label>
+    <textarea matInput formControlName="request"></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Mesa</mat-label>
+    <mat-select formControlName="table" [compareWith]="compareTables" required>
+      <mat-option *ngFor="let t of (tables$ | async)" [value]="t" [disabled]="t.state !== 'A'">
+        Mesa {{ t.tableNumber }} ({{ t.ability }} personas) <span *ngIf="t.state !== 'A'">(Inactiva)</span>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem;">
+    <button mat-button type="button" (click)="close()">Cancelar</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Guardar</button>
+  </div>
+</form> 

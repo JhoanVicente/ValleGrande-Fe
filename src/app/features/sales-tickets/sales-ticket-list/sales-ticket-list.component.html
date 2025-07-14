@@ -1,0 +1,89 @@
+<div class="header">
+  <div class="header-content">
+    <h2>{{ userRole === 'Administrador' ? 'Tickets de Venta' : 'Mis Compras' }}</h2>
+    <div class="header-actions">
+      <!-- Botón para Cliente -->
+      <button *ngIf="userRole !== 'Administrador'" mat-raised-button color="primary" (click)="openDialog()" class="action-button">
+        <mat-icon>shopping_cart</mat-icon>
+        <span>Realizar Compra</span>
+      </button>
+      
+      <!-- Botones para Administrador -->
+      <ng-container *ngIf="userRole === 'Administrador'">
+        <button mat-raised-button color="primary" (click)="openDialog()" class="action-button">
+          <mat-icon>add</mat-icon>
+          <span>Nuevo Ticket</span>
+        </button>
+        <button mat-raised-button 
+                [color]="currentFilter === 'inactive' ? 'warn' : ''" 
+                (click)="toggleInactiveTickets()" 
+                class="action-button">
+          <mat-icon>archive</mat-icon>
+          <span>{{ currentFilter === 'inactive' ? 'Ver Activos' : 'Ver Inactivos' }}</span>
+        </button>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<div class="filters-container" *ngIf="userRole === 'Administrador'">
+  <mat-form-field appearance="outline" class="filter-field">
+    <!-- Filter content -->
+  </mat-form-field>
+</div>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Acciones</th>
+    <td mat-cell *matCellDef="let element">
+      <!-- Acciones para Administrador -->
+      <div *ngIf="userRole === 'Administrador'">
+        <div class="action-buttons" *ngIf="currentFilter !== 'inactive'">
+          <button mat-icon-button 
+                  color="accent" 
+                  (click)="openDialog(element, true)" 
+                  matTooltip="Ver Detalle"
+                  class="action-button view">
+            <mat-icon>visibility</mat-icon>
+          </button>
+          <button mat-icon-button 
+                  color="primary" 
+                  (click)="openDialog(element)" 
+                  matTooltip="Editar"
+                  class="action-button edit">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button 
+                  color="warn" 
+                  (click)="deleteSalesTicket(element)" 
+                  matTooltip="Eliminar"
+                  class="action-button delete">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+        <div class="action-buttons" *ngIf="currentFilter === 'inactive'">
+          <button mat-icon-button 
+                  color="primary" 
+                  (click)="restoreSalesTicket(element)" 
+                  matTooltip="Restaurar"
+                  class="action-button restore">
+            <mat-icon>restore</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Acción para Cliente -->
+       <div *ngIf="userRole !== 'Administrador'">
+          <button mat-icon-button 
+                  color="accent" 
+                  (click)="openDialog(element, true)" 
+                  matTooltip="Ver Detalle de Compra"
+                  class="action-button view">
+            <mat-icon>visibility</mat-icon>
+          </button>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+</table> 
