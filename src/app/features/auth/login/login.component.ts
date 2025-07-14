@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -58,13 +59,15 @@ export class LoginComponent implements OnInit {
     };
     
     this.authService.login(credentials).subscribe({
-      next: () => {
+      next: (response: any) => {
+        console.log('Login exitoso:', response);
         this.loading = false;
         this.router.navigate(['/']); // Navegar a la página principal tras el éxito
       },
-      error: (err) => {
+      error: (err: any) => {
+        console.error('Error de login completo:', err);
         this.loading = false;
-        this.error = err?.error?.message || 'Credenciales incorrectas';
+        this.error = err?.error?.message || 'Error de conexión con el servidor';
       }
     });
   }
